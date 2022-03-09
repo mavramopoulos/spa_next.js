@@ -16,6 +16,7 @@ import {faTrash, faEdit} from '@fortawesome/free-solid-svg-icons'
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
+import moment from "moment";
 
 export default function Spa() {
     const [employees, setEmployees] = useState([])
@@ -23,7 +24,7 @@ export default function Spa() {
     const [lastName, setLastName] = useState("")
     const [firstName, setFirstName] = useState("")
     const [isActive, setIsActive] = useState("")
-    const [date, setDate] = useState("")
+    const [date, setDate] = useState(new Date())
     const [lastNameU, setLastNameU] = useState("")
     const [firstNameU, setFirstNameU] = useState("")
     const [isActiveU, setIsActiveU] = useState("")
@@ -39,10 +40,6 @@ export default function Spa() {
         Fetch()
             .then()
     }, [])
-
-    useEffect(() => {
-      console.log(date)
-    }, [date])
 
     function renderUpdate() {
         return (
@@ -94,9 +91,9 @@ export default function Spa() {
                                     label="Date Of Birth"
                                     name="date_of_birthU"
                                     value={dateU}
+                                    date={null}
                                     onChange={newValue => setDateU(newValue)}
                                     renderInput={(params) => <TextField {...params} />}
-                                    date={null}
                                     inputFormat="dd/MM/yyyy"
                                 />
                             </LocalizationProvider>
@@ -272,7 +269,7 @@ export default function Spa() {
                         <TableBody>
                             {employees.map((row) => (
                                 <TableRow
-                                    key={row.name}
+                                    key={row.id}
                                     sx={{'&:last-child td, &:last-child th': {border: 0}}}
                                 >
                                     <TableCell style={{display: "none"}} align="left">{row.id}</TableCell>
@@ -282,7 +279,7 @@ export default function Spa() {
                                     <TableCell align="left">{row.date_of_birth}</TableCell>
                                     <TableCell align="left">
                                         <IconButton style={{color: "dodgerblue"}} label="edit"
-                                                    onClick={() => addUpdate(row.id)}>
+                                                    onClick={() => {setLastNameU(row.last_name); setFirstNameU(row.first_name); setIsActiveU(row.is_active === 'Yes' ? 'True' : 'False'); setDateU(moment(row.date_of_birth, 'DD/MM/YYYY').format('MM/DD/YYYY')); addUpdate(row.id);}}>
                                             <FontAwesomeIcon icon={faEdit}/>
                                         </IconButton>
                                     </TableCell>
