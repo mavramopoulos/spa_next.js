@@ -30,7 +30,7 @@ export default function Spa() {
     const [isActiveU, setIsActiveU] = useState("")
     const [dateU, setDateU] = useState("")
     async function Fetch() {
-        await fetch("/api/select", {method: 'GET', mode: 'cors'})
+        await fetch("api/select", {method: 'GET', mode: 'cors'})
             .then(res => res.json())
             .then(employees => setEmployees(employees))
     }
@@ -117,7 +117,7 @@ export default function Spa() {
             date_of_birth: dateU
         };
 
-        await fetch("api/update/",
+        await fetch("api/update",
             {
                 method: 'PUT',
                 body: JSON.stringify(employee),
@@ -137,7 +137,7 @@ export default function Spa() {
             id: selectedId,
         };
 
-        await fetch("api/delete/",
+        await fetch("api/delete",
             {
                 method: 'DELETE',
                 body: JSON.stringify(employee),

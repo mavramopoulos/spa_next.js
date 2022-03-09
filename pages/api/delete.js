@@ -2,7 +2,7 @@ import {getCon} from "./db";
 
 const db = getCon();
 
-export default async function (req, res) {
+export default async function Delete(req, res) {
     if (req.method === 'DELETE') {
         try {
             const id = parseInt(req.body.id)

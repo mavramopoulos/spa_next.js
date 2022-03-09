@@ -1,7 +1,7 @@
 import {getCon} from "./db";
 
 const db = getCon();
-export default async function (req, res) {
+export default async function Select(req, res) {
     if (req.method === 'GET') {
         try {
             const results = await db.query('SELECT * FROM employee ORDER BY last_name ASC')
@@ -14,7 +14,6 @@ export default async function (req, res) {
                     r.is_active = "No"
                 }
             })
-            console.log(results.rows)
 
             res.status(200).json(results.rows)
         } catch (error) {

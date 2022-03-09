@@ -2,7 +2,7 @@ import {getCon} from "./db";
 
 const db = getCon();
 
-export default async function (req, res) {
+export default async function Insert(req, res) {
     if (req.method === 'POST') {
         try {
             const {last_name, first_name, is_active, date_of_birth} = req.body

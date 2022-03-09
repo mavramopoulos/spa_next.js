@@ -2,7 +2,7 @@ import {getCon} from "./db";
 
 const db = getCon();
 
-export default async function (req, res) {
+export default async function Update(req, res) {
     if (req.method === 'PUT') {
         try {
             const id = parseInt(req.body.id)
