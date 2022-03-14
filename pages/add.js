@@ -8,19 +8,17 @@ import {Router, useRouter} from "next/router";
 
 export default function Add() {
     const router = useRouter()
-    const {data: session} = useSession()
+    const {data: session, status} = useSession()
     const [lastName, setLastName] = useState("")
     const [firstName, setFirstName] = useState("")
     const [isActive, setIsActive] = useState("")
     const [date, setDate] = useState(new Date())
 
     useEffect(() => {
-        if (session) {
-
-        } else {
+        if (status === "unauthenticated") {
             router.push('/')
         }
-    });
+    }, [status]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

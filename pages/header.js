@@ -10,7 +10,7 @@ export default function Header() {
 
     if (session) {
         return (
-            <div style={{paddingBottom: 100}}>
+            <div>
                 <Box>
                     <AppBar position="static" style={{background: "black"}}>
                         <Toolbar>

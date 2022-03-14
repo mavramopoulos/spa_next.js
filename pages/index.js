@@ -8,20 +8,20 @@ export default function Home() {
     const {data: session} = useSession()
     if (session) {
         return (
-            <div align="center">
+            <div align="center" style={{marginTop: 100, paddingRight: 100, paddingLeft: 100}}>
                 <Card variant="outlined" sx={{width: 400}}>
                     <CardContent>
                         <h1 align="center">Select</h1>
                         <CardActions>
-                            <Link href="/spa">
-                                <MUILink component="button">
+                            <Link href="/view">
+                                <MUILink>
                                     <Button style={{marginLeft: 70}} variant="contained">
                                         View
                                     </Button>
                                 </MUILink>
                             </Link>
                             <Link href="/add">
-                                <MUILink component="button">
+                                <MUILink>
                                     <Button style={{marginLeft: 60}} variant="contained">
                                         Add
                                     </Button>
