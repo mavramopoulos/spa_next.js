@@ -5,17 +5,31 @@ import DatePicker from "@mui/lab/DatePicker";
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import {useSession} from "next-auth/react";
+import moment from "moment";
 
 
 export default function Update() {
     const router = useRouter()
     const {data: session, status} = useSession()
+    const [data, setData] = useState()
     const [lastNameU, setLastNameU] = useState("")
     const [firstNameU, setFirstNameU] = useState("")
     const [isActiveU, setIsActiveU] = useState('')
     const [dateU, setDateU] = useState("")
     const [id, setId] = useState("")
 
+
+    async function Fetch() {
+        await fetch("../api/get/" + id,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => res.json())
+            .then(data => setData(data))
+    }
 
     const handleUpdate = async (e) => {
         e.preventDefault()
@@ -43,12 +57,23 @@ export default function Update() {
     useEffect(() => {
         if (router && router.query) {
             setId(router.query.id)
-            setLastNameU(router.query.last_name)
-            setFirstNameU(router.query.first_name)
-            setIsActiveU(router.query.is_active)
-            setDateU(router.query.date_of_birth)
         }
     }, [router]);
+
+    useEffect(() => {
+        if (id){
+            Fetch()
+        }
+    }, [id]);
+
+    useEffect(() => {
+        if (data){
+            setLastNameU(data[0].last_name)
+            setFirstNameU(data[0].first_name)
+            setIsActiveU(data[0].is_active)
+            setDateU(moment(data[0].date_of_birth, 'DD/MM/YYYY').format('MM/DD/YYYY'))
+        }
+    }, [data]);
 
     useEffect(() => {
         if (status === "unauthenticated") {
@@ -95,8 +120,8 @@ export default function Update() {
                             <MenuItem value="">
                                 <em>None</em>
                             </MenuItem>
-                            <MenuItem value="True">True</MenuItem>
-                            <MenuItem value="False">False</MenuItem>
+                            <MenuItem value="True">Yes</MenuItem>
+                            <MenuItem value="False">No</MenuItem>
                         </Select>
                         <LocalizationProvider dateAdapter={AdapterDateFns}>
                             <DatePicker

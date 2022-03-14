@@ -43,7 +43,7 @@ export default function View() {
             Fetch()
                 .then()
         }
-    }, [])
+    }, [status])
 
     useEffect(() => {
         if (status === "unauthenticated") {
@@ -144,11 +144,7 @@ export default function View() {
                                         <IconButton style={{color: "dodgerblue"}} label="edit"
                                                     onClick={() => router.push({pathname: '/update/[id]',
                                                         query: {
-                                                            id: row.id,
-                                                            last_name: row.last_name,
-                                                            first_name: row.first_name,
-                                                            is_active: row.is_active === 'Yes' ? 'True' : 'False',
-                                                            date_of_birth: moment(row.date_of_birth, 'DD/MM/YYYY').format('MM/DD/YYYY')
+                                                            id: row.id
                                                         },
                                                     })}>
                                             <FontAwesomeIcon icon={faEdit}/>
