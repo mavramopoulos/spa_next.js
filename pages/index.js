@@ -1,32 +1,40 @@
-import {AppBar, Box, Button, Toolbar, Typography} from "@mui/material";
-import Spa from "./spa";
-import {useSession, signIn, signOut} from "next-auth/react"
+import {Button, Card, CardActions, CardContent, Container, Grid} from "@mui/material";
+import {useSession} from "next-auth/react"
+import SignIn from "./signIn";
+import Link from 'next/link'
+import {Link as MUILink} from '@mui/material';
 
 export default function Home() {
     const {data: session} = useSession()
     if (session) {
         return (
-            <div style={{paddingBottom: 100}}>
-                <Box>
-                    <AppBar position="static" style={{background: "black"}}>
-                        <Toolbar>
-                            <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-                                SPA
-                            </Typography>
-                            Signed in as {session.user.email} <br/>
-                            <Button style={{marginLeft: 10}} variant="contained" onClick={() => signOut()}>Sign out</Button>
-                        </Toolbar>
-                    </AppBar>
-                </Box>
-                <Spa/>
+            <div align="center">
+                <Card variant="outlined" sx={{width: 400}}>
+                    <CardContent>
+                        <h1 align="center">Select</h1>
+                        <CardActions>
+                            <Link href="/spa">
+                                <MUILink component="button">
+                                    <Button style={{marginLeft: 70}} variant="contained">
+                                        View
+                                    </Button>
+                                </MUILink>
+                            </Link>
+                            <Link href="/add">
+                                <MUILink component="button">
+                                    <Button style={{marginLeft: 60}} variant="contained">
+                                        Add
+                                    </Button>
+                                </MUILink>
+                            </Link>
+                        </CardActions>
+                    </CardContent>
+                </Card>
             </div>
         )
     } else {
         return (
-            <div align="center">
-                <h1>You are not Signed in!</h1>
-                <Button variant="contained" onClick={() => signIn()}>Sign in</Button>
-            </div>
+            <SignIn/>
         )
     }
 }

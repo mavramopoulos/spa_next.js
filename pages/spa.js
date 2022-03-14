@@ -17,14 +17,14 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DatePicker from '@mui/lab/DatePicker';
 import moment from "moment";
+import {useRouter} from "next/router";
+import {useSession} from "next-auth/react";
 
 export default function Spa() {
+    const router = useRouter()
+    const {data: session} = useSession()
     const [employees, setEmployees] = useState([])
     const [editId, setEditId] = useState([])
-    const [lastName, setLastName] = useState("")
-    const [firstName, setFirstName] = useState("")
-    const [isActive, setIsActive] = useState("")
-    const [date, setDate] = useState(new Date())
     const [lastNameU, setLastNameU] = useState("")
     const [firstNameU, setFirstNameU] = useState("")
     const [isActiveU, setIsActiveU] = useState("")
@@ -41,6 +41,14 @@ export default function Spa() {
             .then()
     }, [])
 
+    useEffect(() => {
+        if (session) {
+
+        } else {
+            router.push('/')
+        }
+    });
+
     function renderUpdate() {
         return (
             <div style={{marginTop: 100, paddingRight: 100, paddingLeft: 100}}>
@@ -55,7 +63,7 @@ export default function Spa() {
                     <form onSubmit={handleUpdate}>
                         <div>
                             <TextField
-                                
+
                                 id="last_nameU"
                                 label="Last Name"
                                 name="last_nameU"
@@ -63,7 +71,7 @@ export default function Spa() {
                                 onChange={e => setLastNameU(e.target.value)}
                             />
                             <TextField
-                                
+
                                 id="first_nameU"
                                 label="First Name"
                                 name="first_nameU"
@@ -71,7 +79,7 @@ export default function Spa() {
                                 onChange={e => setFirstNameU(e.target.value)}
                             />
                             <Select style={{width: 300, marginTop: 8}}
-                                    
+
                                     id="is_activeU"
                                     label="Is Active"
                                     name="is_activeU"
@@ -152,31 +160,7 @@ export default function Spa() {
             .then()
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
 
-        const employee = {
-            last_name: lastName,
-            first_name: firstName,
-            is_active: isActive,
-            date_of_birth: date
-        };
-
-        await fetch("/api/insert",
-            {
-                method: 'POST',
-                body: JSON.stringify(employee),
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-            })
-            .then(function (res) {
-
-                return res;
-            })
-        Fetch()
-            .then()
-    }
 
     function addUpdate(id) {
         setEditId(id)
@@ -190,66 +174,7 @@ export default function Spa() {
 
     return (
         <div>
-            <div style={{marginTop: 100, paddingRight: 100, paddingLeft: 100}}>
-                <h1>Add New Employee</h1>
-                <Box
-                    sx={{
-                        '& .MuiTextField-root': {m: 1, width: '25ch'},
-                    }}
-                    noValidate
-                    autoComplete="off"
-                >
-                    <form onSubmit={handleSubmit}>
-                        <div>
-                            <TextField
-                                required
-                                id="last_name"
-                                label="Last Name"
-                                name="last_name"
-                                value={lastName}
-                                onChange={e => setLastName(e.target.value)}
-                            />
-                            <TextField
-                                required
-                                id="first_name"
-                                label="First Name"
-                                name="first_name"
-                                value={firstName}
-                                onChange={e => setFirstName(e.target.value)}
-                            />
-                            <Select style={{width: 300, marginTop: 8}}
-                                    required
-                                    id="is_active"
-                                    label="Is Active"
-                                    name="is_active"
-                                    defaultValue=""
-                                    value={isActive}
-                                    onChange={e => setIsActive(e.target.value)}
-                            >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                <MenuItem value="True">Yes</MenuItem>
-                                <MenuItem value="False">No</MenuItem>
-                            </Select>
-                            <LocalizationProvider dateAdapter={AdapterDateFns}>
-                            <DatePicker
-                                required
-                                id="date_of_birth"
-                                label="Date"
-                                name="date_of_birth"
-                                value={date}
-                                onChange={newValue => setDate(newValue)}
-                                renderInput={(params) => <TextField {...params} />}
-                                date={null}
-                                inputFormat="dd/MM/yyyy"
-                            />
-                            </LocalizationProvider>
-                        </div>
-                        <Button style={{marginLeft: 10}} variant="contained" type="submit">Submit</Button>
-                    </form>
-                </Box>
-            </div>
+
 
             <div style={{marginTop: 100, width: '100%', paddingRight: 100, paddingLeft: 100}}>
                 <h1>Edit Employees</h1>
